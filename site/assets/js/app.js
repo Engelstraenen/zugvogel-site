@@ -180,9 +180,9 @@
 
   /* 4 Besichtigung per Handy: AR-Rahmen erscheinen beim Scrollen */
   var AR = [
-    // x,y,w,h in % des Handy-Bilds (16:9-Bildausschnitt) + Name + m³
-    [28, 44, 34, 30, 'Sofa · 1,8 m³', 1.8], [63, 44, 14, 28, 'Sessel · 0,6 m³', .6], [36, 68, 18, 14, 'Couchtisch · 0,3 m³', .3],
-    [5, 22, 15, 60, 'Regal · 0,9 m³', .9], [78, 50, 18, 26, 'Sideboard · 0,7 m³', .7], [82, 14, 12, 40, 'Pflanze · 0,2 m³', .2]
+    // x,y,w,h in % des Wohnzimmerbilds (zv-d, 16:9) + Name + m³
+    [22, 59, 34, 19, 'Sofa · 1,8 m³', 1.8], [60.5, 52, 17, 23, 'Sessel · 0,6 m³', .6], [45, 66, 18, 15, 'Couchtisch · 0,3 m³', .3],
+    [39.5, 26, 11, 29, 'Regal · 0,9 m³', .9], [13, 51, 13, 17, 'Sideboard · 0,7 m³', .7], [81.5, 43, 17, 36, 'Pflanze · 0,2 m³', .2]
   ];
   var arBox = $('#ar'), arEls = AR.map(function (a) {
     var d = document.createElement('div'); d.className = 'bx';
