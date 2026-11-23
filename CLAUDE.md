@@ -33,12 +33,17 @@ sjinn.ai (Chrome, eingeloggt) ✅ · GitHub Engelstraenen (gh) – beim Deploy p
 2. First Frames 4K → Drafts → Bau → Mobil-Check → GitHub Pages
 
 ## 7. Befehle
-(folgt beim Bau)
+- Vorschau: `python3 tools/serve.py 4395` → http://localhost:4395/ (Port 4395, 4381/4391 sind von anderen Sitzungen belegt; vorher `<title>` per curl prüfen)
+- Bilder: `python3 tools/assets.py` (assets-roh/img/zv-*.jpg → site/assets/img/*.webp, 3840 + 1800 px, mit Cache)
+- Filme: `python3 tools/video.py <roh.mp4> lift|sofa|crew` (All-Intra, Desktop/Hochkant/Quer, trägt vid.js ein)
+- Prüfen: `python3 tools/desk_check.py 1440x900`, `python3 tools/mobil_check.py http://localhost:4395/`
+- Veröffentlichen: `git subtree split --prefix site -b gh-pages && git push -f origin gh-pages` → https://engelstraenen.github.io/zugvogel-site/
 
 ## 8. Offene Fragen
-- Welche Variante (1 Möbellift · 2 Lade-Tetris · 3 Alte Wohnung leer, neue voll)?
+- Endrender 2K (MiniMax H3) braucht Credits: Guthaben 23.11. nur 38 Credits.
 
 ## 9. Entschieden
+- 23.11.2026: Eugen wählt Variante 1 „Möbellift“ (Nachtblau + Signalorange). Repo Engelstraenen/zugvogel-site, Pages über gh-pages.
 - 23.11.2026: Projektname/Marke ZUGVOGEL. Storyboards 3x3, Nano Banana 2.1, 16:9, 4K, Prompts in `konzepte/prompts.md`.
 
 ## 10. Ablage

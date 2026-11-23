@@ -1,1 +1,1 @@
-window.ZV_VID = {_v: 1};
+window.ZV_VID = {"sofa": "1344x768", "_v": 1795456209};
