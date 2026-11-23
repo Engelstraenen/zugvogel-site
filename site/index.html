@@ -7,6 +7,7 @@
 <meta name="description" content="Umzug mit Möbellift, Festpreis in 2 Minuten, Besichtigung per Handy, Halteverbotszone inklusive. Demo-Webseite für Umzugsfirmen.">
 <meta name="theme-color" content="#0a1226">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1226'/%3E%3Cpath d='M10 24 L26 38 L32 32 L38 38 L54 24 L54 32 L38 46 L32 40 L26 46 L10 32Z' fill='%23ff6a13'/%3E%3C/svg%3E">
+<script>try{var t=new URLSearchParams(location.search).get("farbe");if(t)sessionStorage.setItem("zv-farbe",t);else t=sessionStorage.getItem("zv-farbe");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preload" href="assets/fonts/grotesk.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css?v=1">
 </head>
@@ -149,20 +150,20 @@
 <section class="hvz" id="halteverbot" style="--h:260vh">
   <div class="stage">
     <svg class="map" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs><pattern id="blk" width="160" height="160" patternUnits="userSpaceOnUse"><rect width="160" height="160" fill="#0d1834"/><rect x="18" y="18" width="124" height="124" rx="6" fill="#132247"/></pattern></defs>
+      <defs><pattern id="blk" width="160" height="160" patternUnits="userSpaceOnUse"><rect width="160" height="160" style="fill:var(--m1)"/><rect x="18" y="18" width="124" height="124" rx="6" style="fill:var(--m2)"/></pattern></defs>
       <rect width="1600" height="900" fill="url(#blk)"/>
       <path class="road" d="M-20 610 H1620"/>
       <path class="road thin" d="M520 -20 V920 M1180 -20 V920"/>
       <path class="route" id="route" d="M-20 610 H760"/>
       <g class="house" transform="translate(800 330)">
-        <rect x="0" y="0" width="260" height="250" fill="#1b2d5c"/><path d="M-10 0 L130 -70 L270 0Z" fill="#22386f"/>
-        <g fill="#33508f"><rect x="30" y="30" width="40" height="52"/><rect x="110" y="30" width="40" height="52"/><rect x="190" y="30" width="40" height="52"/><rect x="30" y="110" width="40" height="52"/><rect x="110" y="110" width="40" height="52"/><rect x="190" y="110" width="40" height="52"/></g>
+        <rect x="0" y="0" width="260" height="250" style="fill:var(--m3)"/><path d="M-10 0 L130 -70 L270 0Z" style="fill:var(--m4)"/>
+        <g style="fill:var(--m5)"><rect x="30" y="30" width="40" height="52"/><rect x="110" y="30" width="40" height="52"/><rect x="190" y="30" width="40" height="52"/><rect x="30" y="110" width="40" height="52"/><rect x="110" y="110" width="40" height="52"/><rect x="190" y="110" width="40" height="52"/></g>
         <rect class="lit" x="190" y="30" width="40" height="52"/>
-        <rect x="105" y="185" width="50" height="65" fill="#0d1834"/>
+        <rect x="105" y="185" width="50" height="65" style="fill:var(--m1)"/>
       </g>
       <rect class="zone" x="620" y="585" width="420" height="50" rx="4"/>
-      <g class="sign s1" transform="translate(640 600)"><line x1="0" y1="0" x2="0" y2="-120"/><circle cx="0" cy="-150" r="30"/><path d="M-21 -171 L21 -129 M21 -171 L-21 -129"/></g>
-      <g class="sign s2" transform="translate(1020 600)"><line x1="0" y1="0" x2="0" y2="-120"/><circle cx="0" cy="-150" r="30"/><path d="M-21 -171 L21 -129 M21 -171 L-21 -129"/></g>
+      <g class="sign s1"><line x1="0" y1="0" x2="0" y2="-120"/><circle cx="0" cy="-150" r="30"/><path d="M-21 -171 L21 -129 M21 -171 L-21 -129"/></g>
+      <g class="sign s2"><line x1="0" y1="0" x2="0" y2="-120"/><circle cx="0" cy="-150" r="30"/><path d="M-21 -171 L21 -129 M21 -171 L-21 -129"/></g>
       <g class="minitruck" id="mt"><rect x="-70" y="-26" width="96" height="52" rx="4" fill="#f4f6fb"/><rect x="26" y="-18" width="34" height="44" rx="4" fill="#dfe5f0"/></g>
     </svg>
     <div class="hvz-copy">
@@ -197,10 +198,10 @@
       <div class="screen dark">
         <div class="app-top"><span>9:41</span><b>ZUGVOGEL</b><span>●●●</span></div>
         <svg class="mini" viewBox="0 0 300 520" aria-hidden="true">
-          <rect width="300" height="520" fill="#0d1834"/>
-          <g stroke="#1b2d5c" stroke-width="14" fill="none"><path d="M-10 100 H310 M-10 260 H310 M-10 420 H310 M60 -10 V530 M200 -10 V530"/></g>
-          <path id="lroute" d="M60 500 V260 H200 V100 H260" stroke="#ff6a13" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="6 9"/>
-          <circle cx="260" cy="100" r="10" fill="#ff6a13"/><circle cx="260" cy="100" r="22" fill="none" stroke="#ff6a13" stroke-opacity=".4" class="pulse"/>
+          <rect width="300" height="520" style="fill:var(--m1)"/>
+          <g style="stroke:var(--m3)" stroke-width="14" fill="none"><path d="M-10 100 H310 M-10 260 H310 M-10 420 H310 M60 -10 V530 M200 -10 V530"/></g>
+          <path id="lroute" d="M60 500 V260 H200 V100 H260" style="stroke:var(--or)" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="6 9"/>
+          <circle cx="260" cy="100" r="10" style="fill:var(--or)"/><circle cx="260" cy="100" r="22" fill="none" style="stroke:var(--or)" stroke-opacity=".4" class="pulse"/>
           <g id="ltruck"><rect x="-13" y="-9" width="26" height="18" rx="3" fill="#fff"/></g>
         </svg>
         <div class="card" id="card"><small id="cardT">07:12</small><b id="cardS">Team unterwegs – Ankunft 7:30</b><span class="bar"><i id="cardBar"></i></span></div>
