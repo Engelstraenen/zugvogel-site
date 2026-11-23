@@ -2,19 +2,17 @@
 @font-face{font-family:"Grotesk";src:url("../fonts/grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap}
 
 :root{
-  --bg:#0a1226;--bg2:#0f1b36;--bg3:#16264a;--bg4:#0c1630;--deep:#05091a;--ink:#eef2f8;--ink2:#cfd7e6;--muted:#9aa7bf;--line2:#5d6a85;
-  --mid:#132449;--hov:#22386a;--glow:#132552;--m1:#0d1834;--m2:#132247;--m3:#1b2d5c;--m4:#22386f;--m5:#33508f;
-  --or:#ff6a13;--or2:#ff8a45;--or3:#c94f0b;--on-or:#fff;--gold:#ffc23d;--ok:#3ddc97;
-  --bg-rgb:10 18 38;--bg2-rgb:15 27 54;--bg3-rgb:19 36 73;--ink-rgb:238 242 248;--deep-rgb:3 6 16;--or-rgb:255 106 19;
-  --line:rgb(var(--ink-rgb) / .14);
+  --bg:#0d1915;--bg2:#13241e;--bg3:#1b3229;--bg4:#10201a;--deep:#060f0b;--ink:#f2efe4;--ink2:#d5dccd;--muted:#9db0a4;--line2:#4f6457;
+  --mid:#18302a;--hov:#22443a;--glow:#173229;--m1:#10201a;--m2:#16291f;--m3:#1f3a2e;--m4:#28493a;--m5:#3a614f;
+  --or:#d8b260;--or2:#e7c983;--or3:#a8843a;--on-or:#14110a;--bg-rgb:13 25 21;--bg2-rgb:19 36 30;--bg3-rgb:27 50 41;--ink-rgb:242 239 228;--deep-rgb:6 15 11;--or-rgb:216 178 96;
+  --gold:#ffc23d;--ok:#3ddc97;
+    --line:rgb(var(--ink-rgb) / .14);
   --f:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;--g:"Grotesk","Inter",system-ui,sans-serif;
   --pad:clamp(16px,4vw,56px);--top:72px;--demo:34px;
   color-scheme:dark;
 }
-/* Farbwelt Tanne & Messing */
-:root[data-theme=tanne]{--bg:#0d1915;--bg2:#13241e;--bg3:#1b3229;--bg4:#10201a;--deep:#060f0b;--ink:#f2efe4;--ink2:#d5dccd;--muted:#9db0a4;--line2:#4f6457;
-  --mid:#18302a;--hov:#22443a;--glow:#173229;--m1:#10201a;--m2:#16291f;--m3:#1f3a2e;--m4:#28493a;--m5:#3a614f;
-  --or:#d8b260;--or2:#e7c983;--or3:#a8843a;--on-or:#14110a;--bg-rgb:13 25 21;--bg2-rgb:19 36 30;--bg3-rgb:27 50 41;--ink-rgb:242 239 228;--deep-rgb:6 15 11;--or-rgb:216 178 96}
+/* Standard = Tanne & Messing (Eugen 23.11.2026). Alte Farbwelt Blau/Orange nur noch per ?farbe=blau */
+:root[data-theme=blau]{--bg:#0a1226;--bg2:#0f1b36;--bg3:#16264a;--bg4:#0c1630;--deep:#05091a;--ink:#eef2f8;--ink2:#cfd7e6;--muted:#9aa7bf;--line2:#5d6a85;--mid:#132449;--hov:#22386a;--glow:#132552;--m1:#0d1834;--m2:#132247;--m3:#1b2d5c;--m4:#22386f;--m5:#33508f;--or:#ff6a13;--or2:#ff8a45;--or3:#c94f0b;--on-or:#fff;--bg-rgb:10 18 38;--bg2-rgb:15 27 54;--bg3-rgb:19 36 73;--ink-rgb:238 242 248;--deep-rgb:3 6 16;--or-rgb:255 106 19}
 /* Farbwelt Graphit & Neongelb */
 :root[data-theme=graphit]{--bg:#111213;--bg2:#1a1b1d;--bg3:#25272a;--bg4:#151617;--deep:#08090a;--ink:#f4f4f1;--ink2:#d3d4d0;--muted:#9c9e9f;--line2:#55585c;
   --mid:#202224;--hov:#2e3134;--glow:#1d1f21;--m1:#151617;--m2:#1c1e20;--m3:#26292c;--m4:#2f3336;--m5:#43484c;
