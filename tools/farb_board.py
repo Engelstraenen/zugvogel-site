@@ -25,7 +25,7 @@ for i, th in enumerate(sys.argv[1:], 1):
     TW, TH = 720, 450; MW, MH = 208, 450
     W = 4 * TW + 5 * 12 + MW * 2 + 12 * 2; H = 2 * TH + 3 * 12 + 60
     bd = Image.new("RGB", (W, H), (16, 16, 18)); d = ImageDraw.Draw(bd)
-    d.text((14, 12), "%d · %s" % (i, {"tanne": "Tanne & Messing", "graphit": "Graphit & Neongelb", "aubergine": "Aubergine & Mint"}.get(th, th)), fill=(240, 240, 240), font=font)
+    d.text((14, 12), "%d · %s" % (i, {"tanne": "Tanne & Messing", "petrol": "Petrol & Messing", "graphit": "Graphit & Neongelb", "aubergine": "Aubergine & Mint"}.get(th, th)), fill=(240, 240, 240), font=font)
     for k, fn in enumerate(shots):
         r, c = divmod(k, 4); bd.paste(Image.open(fn).resize((TW, TH)), (12 + c * (TW + 12), 60 + r * (TH + 12)))
     for k, fn in enumerate(mshots):

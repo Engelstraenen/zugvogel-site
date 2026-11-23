@@ -43,6 +43,7 @@ sjinn.ai (Chrome, eingeloggt) ✅ · GitHub Engelstraenen (gh) – beim Deploy p
 - Endrender 2K (MiniMax H3) braucht Credits: Guthaben 23.11. nur 38 Credits.
 
 ## 9. Entschieden
+- 23.11.2026: Farbwelt Tanne & Messing (--bg #0d1915, --or #d8b260) statt Nachtblau/Orange. Blau nur noch per ?farbe=blau. Eingetragen in Dokumente/FARBWELTEN.md.
 - 23.11.2026: Eugen wählt Variante 1 „Möbellift“ (Nachtblau + Signalorange). Repo Engelstraenen/zugvogel-site, Pages über gh-pages.
 - 23.11.2026: Projektname/Marke ZUGVOGEL. Storyboards 3x3, Nano Banana 2.1, 16:9, 4K, Prompts in `konzepte/prompts.md`.
 
