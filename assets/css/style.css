@@ -2,16 +2,16 @@
 @font-face{font-family:"Grotesk";src:url("../fonts/grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap}
 
 :root{
-  --bg:#0d1915;--bg2:#13241e;--bg3:#1b3229;--bg4:#10201a;--deep:#060f0b;--ink:#f2efe4;--ink2:#d5dccd;--muted:#9db0a4;--line2:#4f6457;
-  --mid:#18302a;--hov:#22443a;--glow:#173229;--m1:#10201a;--m2:#16291f;--m3:#1f3a2e;--m4:#28493a;--m5:#3a614f;
-  --or:#d8b260;--or2:#e7c983;--or3:#a8843a;--on-or:#14110a;--bg-rgb:13 25 21;--bg2-rgb:19 36 30;--bg3-rgb:27 50 41;--ink-rgb:242 239 228;--deep-rgb:6 15 11;--or-rgb:216 178 96;
+  --bg:#0b1a1d;--bg2:#10252a;--bg3:#173239;--bg4:#0e2024;--deep:#051013;--ink:#f0efe6;--ink2:#d3ddd9;--muted:#98aeab;--line2:#4b6467;
+  --mid:#142d33;--hov:#1f434a;--glow:#12303a;--m1:#0e2024;--m2:#13292e;--m3:#1b3a41;--m4:#23484f;--m5:#356069;
+  --or:#d8b260;--or2:#e7c983;--or3:#a8843a;--on-or:#14110a;--bg-rgb:11 26 29;--bg2-rgb:16 37 42;--bg3-rgb:23 50 57;--ink-rgb:240 239 230;--deep-rgb:5 16 19;--or-rgb:216 178 96;
   --gold:#ffc23d;--ok:#3ddc97;
     --line:rgb(var(--ink-rgb) / .14);
   --f:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;--g:"Grotesk","Inter",system-ui,sans-serif;
   --pad:clamp(16px,4vw,56px);--top:72px;--demo:34px;
   color-scheme:dark;
 }
-/* Standard = Tanne & Messing (Eugen 23.11.2026). Alte Farbwelt Blau/Orange nur noch per ?farbe=blau */
+/* Standard = Petrol & Messing (Eugen 23.11.2026, von ASTREIN-Tanne abgesetzt). Alte Farbwelt Blau/Orange nur noch per ?farbe=blau */
 :root[data-theme=blau]{--bg:#0a1226;--bg2:#0f1b36;--bg3:#16264a;--bg4:#0c1630;--deep:#05091a;--ink:#eef2f8;--ink2:#cfd7e6;--muted:#9aa7bf;--line2:#5d6a85;--mid:#132449;--hov:#22386a;--glow:#132552;--m1:#0d1834;--m2:#132247;--m3:#1b2d5c;--m4:#22386f;--m5:#33508f;--or:#ff6a13;--or2:#ff8a45;--or3:#c94f0b;--on-or:#fff;--bg-rgb:10 18 38;--bg2-rgb:15 27 54;--bg3-rgb:19 36 73;--ink-rgb:238 242 248;--deep-rgb:3 6 16;--or-rgb:255 106 19}
 /* Farbwelt Graphit & Neongelb */
 :root[data-theme=graphit]{--bg:#111213;--bg2:#1a1b1d;--bg3:#25272a;--bg4:#151617;--deep:#08090a;--ink:#f4f4f1;--ink2:#d3d4d0;--muted:#9c9e9f;--line2:#55585c;
