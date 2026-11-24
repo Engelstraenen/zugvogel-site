@@ -131,15 +131,30 @@ p{margin:0}
 .chk input:checked+span::before{background:var(--or) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E") center/16px no-repeat;box-shadow:none}
 .chk input:focus-visible+span::before{outline:2px solid var(--or);outline-offset:3px}
 .truck{width:100%;height:auto;margin:0 auto 6px;overflow:visible}
-.t-box{fill:var(--mid);stroke:rgba(255,255,255,.18);stroke-width:2}
-.t-edge{fill:none;stroke:rgba(255,255,255,.12);stroke-width:2}
-.t-cab{fill:#e9edf5}
-.t-front{fill:rgb(var(--bg3-rgb) / .15);stroke:var(--or);stroke-width:2.5}
-.wheel{fill:var(--deep);stroke:var(--line2);stroke-width:5}
-#fill rect,#fill path{transition:opacity .35s,transform .45s cubic-bezier(.2,.9,.3,1.3)}
-.box-f{fill:var(--or);stroke:var(--bg);stroke-width:1.5}
-.box-t{fill:var(--or2);stroke:var(--bg);stroke-width:1.5}
-.box-s{fill:var(--or3);stroke:var(--bg);stroke-width:1.5}
+.t-shadow{fill:#000;opacity:.35}
+.tyre{fill:#0a0d0e;stroke:#2a3133;stroke-width:1.5}
+.rim{fill:#a3abae}.wh.far .rim{fill:#3a4245}.wh.far .tyre{fill:#050707}
+.spoke{stroke:#525b5e;stroke-width:2;fill:none}.hub{fill:#e3e7e9}
+.t-floor{fill:var(--deep)}
+.t-wall{fill:var(--bg3)}.t-wall2{fill:var(--mid)}
+.t-glass{fill:rgb(var(--ink-rgb) / .035);stroke:var(--or);stroke-width:2}
+.t-rib{stroke:rgb(var(--or-rgb) / .3);stroke-width:1.2;fill:none}
+.t-roof{fill:rgb(var(--ink-rgb) / .07);stroke:rgb(var(--or-rgb) / .55);stroke-width:1.5}
+.t-front{fill:#e7eaeb}
+.t-chassis{fill:#111516}.t-rail{fill:#cfd5d7}.t-light-r{fill:#d8342c}
+.cab-side{fill:#eef1f2;stroke:rgb(0 0 0 / .22);stroke-width:1}
+.cab-win{fill:#16262c}.cab-win.dim{fill:#1f3138}
+.cab-line{stroke:rgb(0 0 0 / .22);stroke-width:1;fill:none}
+.cab-handle{fill:#69737a}
+.cab-logo{stroke:var(--or3);stroke-width:2.2;fill:none;stroke-linejoin:round}
+.cab-front{fill:#d6dbdd}.cab-bumper{fill:#1e2426}.cab-grille{fill:#2a3235}.cab-lamp{fill:#fff4d6}
+.cab-wind{fill:#1d3036}.cab-roof{fill:#f7f9f9}.cab-mirror{fill:#171c1e}
+.t-beam{fill:rgb(255 240 200 / .08)}
+#fill > g{transition:opacity .35s,transform .5s cubic-bezier(.2,.9,.3,1.25)}
+.box-f{fill:#c79f68;stroke:rgb(0 0 0 / .35);stroke-width:1}
+.box-t{fill:#dcb984;stroke:rgb(0 0 0 / .35);stroke-width:1}
+.box-s{fill:#a8834e;stroke:rgb(0 0 0 / .35);stroke-width:1}
+.box-tape{stroke:rgb(0 0 0 / .28);stroke-width:2.5;fill:none}
 .readout{display:grid;grid-template-columns:1.6fr 1fr .9fr .9fr;gap:10px;margin-top:6px}
 .readout .big,.readout .mid{white-space:nowrap}
 .readout div{background:var(--bg);border-radius:14px;padding:12px 14px}

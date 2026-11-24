@@ -127,27 +127,92 @@
   });
   ['floorA', 'km', 'optLift', 'pack', 'hvz'].forEach(function (id) { $('#' + id).addEventListener('change', calc); });
 
-  // Ladefläche als isometrische Kisten (3 Reihen x 4 Spalten x 3 Lagen = 36 Plätze)
-  var fill = $('#fill'), SLOTS = [];
+  /* LKW: echter 7,5-t-Koffer in Isometrie (Fahrerhaus, Scheiben, Licht, Räder), Seitenwand offen, Kisten füllen sich */
+  var SLOTS = [], NS = 'http://www.w3.org/2000/svg', truckSvg = $('#truck');
+  var C30 = .866, S = 30;
+  function P(x, y, z) { return [((x - y) * C30 * S).toFixed(1), ((x + y) * .5 * S - z * S).toFixed(1)]; }
+  function pt(x, y, z) { return P(x, y, z).join(','); }
+  function poly(pts, cls, extra) { return '<polygon class="' + cls + '" points="' + pts.map(function (q) { return pt(q[0], q[1], q[2]); }).join(' ') + '"' + (extra || '') + '/>'; }
+  // Ebenen-Matrizen: in 2D-Koordinaten einer Fläche (Meter) zeichnen, SVG rechnet in die Isometrie um
+  function mat(v) { return 'matrix(' + v.map(function (n) { return n.toFixed(3); }).join(' ') + ')'; }
+  function planeY(Y) { return mat([C30 * S, .5 * S, 0, -S, -Y * C30 * S, Y * .5 * S]); }
+  function planeX(X) { return mat([-C30 * S, .5 * S, 0, -S, X * C30 * S, X * .5 * S]); }
+  function planeZ(Z) { return mat([C30 * S, .5 * S, -C30 * S, .5 * S, 0, -Z * S]); }
+  var L = 5.2, W = 2.4, Z0 = 1.0, H = 2.6, NSC = ' vector-effect="non-scaling-stroke"';
+  function wheel(x, y, far) {
+    return '<g transform="' + planeY(y) + '"><g class="wh' + (far ? ' far' : '') + '">' +
+      '<circle cx="' + x + '" cy=".48" r=".48" class="tyre"' + NSC + '/><circle cx="' + x + '" cy=".48" r=".28" class="rim"' + NSC + '/>' +
+      '<g class="spokes" style="transform-origin:' + x + 'px .48px"><path d="M' + (x - .26) + ' .48H' + (x + .26) + 'M' + x + ' .22V.74" class="spoke"' + NSC + '/></g>' +
+      '<circle cx="' + x + '" cy=".48" r=".07" class="hub"/></g></g>';
+  }
+  function line(a, b) { var p = P(a[0], a[1], a[2]), q = P(b[0], b[1], b[2]); return 'M' + p[0] + ' ' + p[1] + 'L' + q[0] + ' ' + q[1]; }
+  var svg = '<g id="rig">' +
+    '<g transform="' + planeZ(0) + '"><ellipse cx="3.6" cy="1.2" rx="4.3" ry="1.7" class="t-shadow"/></g>' +
+    wheel(1.3, .05, 1) + wheel(6.2, .15, 1) +
+    // Laderaum innen: Boden, hintere Wand, Stirnwand
+    poly([[0, 0, Z0], [L, 0, Z0], [L, W, Z0], [0, W, Z0]], 't-floor') +
+    poly([[0, 0, Z0], [L, 0, Z0], [L, 0, Z0 + H], [0, 0, Z0 + H]], 't-wall') +
+    poly([[L, 0, Z0], [L, W, Z0], [L, W, Z0 + H], [L, 0, Z0 + H]], 't-wall2') +
+    '<g id="fill"></g>' +
+    // offene Seitenwand als Glaskante mit Rippen, Dach, Stirnwand über dem Fahrerhaus
+    '<g transform="' + planeY(W) + '"><rect x="0" y="' + Z0 + '" width="' + L + '" height="' + H + '" class="t-glass"' + NSC + '/>' +
+    '<rect x="-.05" y="' + (Z0 - .16) + '" width="' + (L + .05) + '" height=".18" class="t-rail"/>' +
+    [1.3, 2.6, 3.9].map(function (x) { return '<path d="M' + x + ' ' + Z0 + 'V' + (Z0 + H) + '" class="t-rib"' + NSC + '/>'; }).join('') + '</g>' +
+    poly([[0, 0, Z0 + H], [L, 0, Z0 + H], [L, W, Z0 + H], [0, W, Z0 + H]], 't-roof', NSC) +
+    poly([[L, 0, Z0 + 1.95], [L, W, Z0 + 1.95], [L, W, Z0 + H], [L, 0, Z0 + H]], 't-front') +
+    // Fahrgestell + Rücklicht
+    '<g transform="' + planeY(2.25) + '"><rect x=".1" y=".72" width="7" height=".3" class="t-chassis"/><rect x="-.05" y=".55" width=".22" height=".3" class="t-light-r"/></g>' +
+    // Fahrerhaus: Seite mit Fenster, Tür, Griff, Logo
+    '<g transform="' + planeY(2.3) + '"><path d="M5.3 .8H7.05V2.1L6.55 2.95H5.3Z" class="cab-side"' + NSC + '/>' +
+    '<path d="M6.0 1.95H6.78L6.48 2.72H6.0Z" class="cab-win"/><path d="M5.5 1.95H5.88V2.72H5.5Z" class="cab-win dim"/>' +
+    '<path d="M5.94 .95V2.75M6.9 1.0V1.92" class="cab-line"' + NSC + '/><rect x="6.55" y="1.55" width=".22" height=".06" class="cab-handle"/>' +
+    '<path d="M5.42 1.3l.16 -.12 .16 .12 .16 -.12 .16 .12" class="cab-logo"' + NSC + '/></g>' +
+    // Front: Stoßstange, Kühlergrill, Scheinwerfer
+    '<g transform="' + planeX(7.05) + '"><rect x=".1" y=".8" width="2.2" height="1.3" class="cab-front"/>' +
+    '<rect x=".15" y=".68" width="2.1" height=".22" class="cab-bumper"/><rect x=".75" y="1.05" width=".9" height=".5" class="cab-grille"/>' +
+    '<rect x=".22" y="1.12" width=".4" height=".22" rx=".05" class="cab-lamp"/><rect x="1.78" y="1.12" width=".4" height=".22" rx=".05" class="cab-lamp"/></g>' +
+    poly([[7.05, .1, 2.1], [7.05, 2.3, 2.1], [6.55, 2.3, 2.95], [6.55, .1, 2.95]], 'cab-wind') +
+    poly([[5.3, .1, 2.95], [6.55, .1, 2.95], [6.55, 2.3, 2.95], [5.3, 2.3, 2.95]], 'cab-roof') +
+    poly([[6.75, 2.3, 2.25], [6.75, 2.58, 2.25], [6.75, 2.58, 1.7], [6.75, 2.3, 1.7]], 'cab-mirror') +
+    wheel(1.3, W, 0) + wheel(6.2, 2.3, 0) +
+    // Lichtkegel der Scheinwerfer
+    '<path d="' + line([7.06, .45, 1.23], [9.6, .1, .3]).replace('L', 'L') + 'L' + P(9.6, 1.0, .3).join(' ') + 'Z" class="t-beam"/>' +
+    '<path d="' + line([7.06, 2.0, 1.23], [9.6, 1.6, .3]) + 'L' + P(9.6, 2.6, .3).join(' ') + 'Z" class="t-beam"/>' +
+    '</g>';
+  truckSvg.innerHTML = svg;
+  var fill = $('#fill', truckSvg);
   (function () {
-    // Ladeboden-Ecken: hinten-links (220,250) – vorne-links (60,210) … Vektoren im Bild
-    var O = [220, 236], X = [-38, -9.5], Y = [58, -12], Z = [0, -36]; // X = Richtung Fahrerhaus, Y = nach hinten, Z = hoch
-    for (var z = 0; z < 3; z++) for (var y = 0; y < 4; y++) for (var x = 0; x < 3; x++) {
-      var ox = O[0] + X[0] * x + Y[0] * y + Z[0] * z, oy = O[1] + X[1] * x + Y[1] * y + Z[1] * z;
-      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-      var pt = function (a, b, c) { return (ox + X[0] * a + Y[0] * b + Z[0] * c).toFixed(1) + ',' + (oy + X[1] * a + Y[1] * b + Z[1] * c).toFixed(1); };
-      var s = .9;
-      g.innerHTML =
-        '<path class="box-s" d="M' + pt(0, 0, 0) + ' L' + pt(s, 0, 0) + ' L' + pt(s, 0, s) + ' L' + pt(0, 0, s) + 'Z"/>' +
-        '<path class="box-f" d="M' + pt(0, 0, 0) + ' L' + pt(0, s, 0) + ' L' + pt(0, s, s) + ' L' + pt(0, 0, s) + 'Z"/>' +
-        '<path class="box-t" d="M' + pt(0, 0, s) + ' L' + pt(s, 0, s) + ' L' + pt(s, s, s) + ' L' + pt(0, s, s) + 'Z"/>';
-      g.style.opacity = 0; g.style.transform = 'translateY(-40px)';
-      SLOTS.push({ g: g, k: z * 100 + (3 - y) * 10 + (2 - x) });
+    var nx = 4, ny = 3, nz = 3, dx = (L - .2) / nx, dy = (W - .2) / ny, dz = (H - .15) / nz, g = .9;
+    var all = [];
+    for (var z = 0; z < nz; z++) for (var x = 0; x < nx; x++) for (var y = 0; y < ny; y++) {
+      var x0 = .1 + x * dx, y0 = .1 + y * dy, z0 = Z0 + z * dz, a = dx * g, b = dy * g, c = dz * g;
+      var el = document.createElementNS(NS, 'g');
+      el.innerHTML = poly([[x0 + a, y0, z0], [x0 + a, y0 + b, z0], [x0 + a, y0 + b, z0 + c], [x0 + a, y0, z0 + c]], 'box-s') +
+        poly([[x0, y0 + b, z0], [x0 + a, y0 + b, z0], [x0 + a, y0 + b, z0 + c], [x0, y0 + b, z0 + c]], 'box-f') +
+        poly([[x0, y0, z0 + c], [x0 + a, y0, z0 + c], [x0 + a, y0 + b, z0 + c], [x0, y0 + b, z0 + c]], 'box-t') +
+        '<path d="' + line([x0 + a * .5, y0 + b, z0 + c], [x0 + a * .5, y0 + b, z0 + c * .55]) + '" class="box-tape"/>';
+      el.style.opacity = 0; el.style.transform = 'translateY(-36px)';
+      // Beladen wie echt: unten zuerst, vorne an der Stirnwand zuerst, innen vor außen
+      all.push({ g: el, fillKey: z * 100 + (nx - 1 - x) * 10 + y, drawKey: x + y + z * 1.01 });
     }
-    // Zeichenreihenfolge: hinten zuerst, unten zuerst
-    SLOTS.sort(function (a, b) { return a.k - b.k; });
-    SLOTS.forEach(function (s) { fill.appendChild(s.g); });
+    all.slice().sort(function (p, q) { return p.drawKey - q.drawKey; }).forEach(function (s) { fill.appendChild(s.g); });
+    all.sort(function (p, q) { return p.fillKey - q.fillKey; }).forEach(function (s) { SLOTS.push(s); });
   })();
+  // Anfahrt beim ersten Sichtkontakt: LKW rollt von links oben ins Bild, Räder drehen sich mit
+  var rig = $('#rig', truckSvg), spokes = $$('.spokes', truckSvg), drove = false, DIST = 6;
+  function rigAt(off) { rig.setAttribute('transform', 'translate(' + (-off * C30 * S).toFixed(1) + ' ' + (-off * .5 * S).toFixed(1) + ')'); }
+  function drive() {
+    if (drove) return; drove = true;
+    var t0 = performance.now(), D = RM ? 0 : 1600;
+    (function st(t) {
+      var k = D ? clamp((t - t0) / D, 0, 1) : 1, e = 1 - Math.pow(1 - k, 3), off = (1 - e) * DIST;
+      rigAt(off);
+      var ang = (-off / .48 * 57.3).toFixed(1);
+      spokes.forEach(function (s) { s.style.transform = 'rotate(' + ang + 'deg)'; });
+      if (k < 1) requestAnimationFrame(st);
+    })(t0);
+  }
+  rigAt(RM ? 0 : DIST);
   var shown = 0;
   function calc() {
     var m3 = 0;
@@ -181,7 +246,7 @@
     })(t0);
   }
   var calcStarted = false;
-  new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !calcStarted) { calcStarted = true; calc(); } }); }, { threshold: .25 }).observe($('#rechner'));
+  new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !calcStarted) { calcStarted = true; drive(); setTimeout(calc, RM ? 0 : 1300); } }); }, { threshold: .25 }).observe($('#rechner'));
 
   /* 4 Besichtigung per Handy: AR-Rahmen erscheinen beim Scrollen */
   var AR = [
