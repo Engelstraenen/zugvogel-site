@@ -56,12 +56,17 @@
     var box = $('.media', sec), v = $('.vid', box), ok = false;
     var base = v && v.getAttribute('data-src'), key = v && v.getAttribute('data-key');
     var V = window.ZV_VID || {};
-    if (base && V[key]) {
+    function attach() {
       var s = document.createElement('source');
       // volle Auflösung: Desktop Original, Handy hochkant Ausschnitt in voller Höhe (-p), Handy quer (-m)
       s.src = base + (mobile() ? (innerWidth / innerHeight <= .75 ? '-p' : '-m') : '') + '.mp4?v=' + V._v; s.type = 'video/mp4'; v.appendChild(s);
       v.addEventListener('loadeddata', function () { ok = true; box.classList.add('has-vid'); });
       v.load(); var pr = v.play && v.play(); if (pr && pr.then) pr.then(function () { v.pause(); }).catch(function () {});
+    }
+    if (base && V[key]) {
+      // erster Film sofort, alle anderen erst kurz bevor ihr Kapitel ins Bild kommt (spart Ladezeit)
+      if (sec.id === 'lift' || !('IntersectionObserver' in window)) attach();
+      else { var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); attach(); } }, { rootMargin: '150% 0px' }); io.observe(sec); }
     }
     var cur = 0;
     return function (p, z) {

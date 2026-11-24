@@ -19,7 +19,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "site", "assets", "vid")
 RAW = os.path.join(ROOT, "assets-roh", "vid")
 VJS = os.path.join(ROOT, "site", "assets", "js", "vid.js")
-POS = {"lift": 0.42, "sofa": 0.5, "crew": 0.3}  # x-Lage des Handy-Ausschnitts (wie object-position in style.css)
+POS = {"lift": 0.42, "sofa": 0.5, "crew": 0.45}  # x-Lage des Handy-Ausschnitts (wie object-position in style.css)
 
 
 def size(src):

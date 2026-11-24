@@ -12,7 +12,7 @@ shots, errs = [], []
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={"width": W, "height": H})
     pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None); pg.on("pageerror", lambda e: errs.append(str(e)))
-    pg.goto(URL, wait_until="networkidle"); pg.wait_for_timeout(800)
+    pg.goto(URL, wait_until="domcontentloaded"); pg.wait_for_timeout(2500)
     for ch in CH:
         hh = pg.evaluate("(id)=>document.getElementById(id).offsetHeight", ch)
         for f in ([0, .35, .7, 1] if hh > H * 1.3 else [.5]):

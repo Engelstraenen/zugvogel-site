@@ -80,7 +80,7 @@ for (w, h) in VPS:
         pg.on("pageerror", lambda e: errs.append(str(e)))
         pg.goto(URL, wait_until="domcontentloaded")
         try:
-            pg.wait_for_function("Object.keys(window.ZV_VID||{}).filter(k=>k!=='_v').every(k=>document.querySelector('[data-key='+k+']').closest('.media').classList.contains('has-vid'))", timeout=180000)
+            pg.wait_for_function("!(window.ZV_VID||{}).lift || document.querySelector('[data-key=lift]').closest('.media').classList.contains('has-vid')", timeout=180000)
         except Exception:
             errs.append("videos nicht geladen")
         pg.wait_for_timeout(800)
