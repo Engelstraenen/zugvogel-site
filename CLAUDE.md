@@ -50,3 +50,4 @@ sjinn.ai (Chrome, eingeloggt) ✅ · GitHub Engelstraenen (gh) – beim Deploy p
 ## 10. Ablage
 konzepte/ (Storyboards + Prompts) · tools/ (sjinn_queue.js, jobs.json) · site/ · assets-roh/ · verlauf/
 - 26.11.2026: Eugen behält das bisherige Design; Neubau-Storyboards (konzepte/neubau/) nicht gewählt.
+- 26.11.2026: Eugen nimmt ab: Projekt abgeschlossen (wachsender Rechner-LKW, Halteverbot-LKW, Leistungen + Versicherung, 3 neue Filme 1080p).
