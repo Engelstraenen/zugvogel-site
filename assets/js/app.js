@@ -127,18 +127,24 @@
   });
   ['floorA', 'km', 'optLift', 'pack', 'hvz'].forEach(function (id) { $('#' + id).addEventListener('change', calc); });
 
-  /* LKW: echter 7,5-t-Koffer in Isometrie (Fahrerhaus, Scheiben, Licht, Räder), Seitenwand offen, Kisten füllen sich */
+  /* LKW: echter Koffer-LKW in Isometrie. Die Größe wächst mit dem Umzugsgut:
+     3,5 t (≈18 m³) → 7,5 t (≈38 m³) → 12 t (≈52 m³) → 18 t (≈68 m³) → darüber zweiter LKW */
+  var CLS = [
+    { n: '3,5 t', L: 3.6, cap: 18, base: 120 },
+    { n: '7,5 t', L: 5.2, cap: 38, base: 190 },
+    { n: '12 t', L: 6.8, cap: 52, base: 290 },
+    { n: '18 t', L: 8.4, cap: 68, base: 380 }
+  ];
   var SLOTS = [], NS = 'http://www.w3.org/2000/svg', truckSvg = $('#truck');
   var C30 = .866, S = 30;
   function P(x, y, z) { return [((x - y) * C30 * S).toFixed(1), ((x + y) * .5 * S - z * S).toFixed(1)]; }
   function pt(x, y, z) { return P(x, y, z).join(','); }
   function poly(pts, cls, extra) { return '<polygon class="' + cls + '" points="' + pts.map(function (q) { return pt(q[0], q[1], q[2]); }).join(' ') + '"' + (extra || '') + '/>'; }
-  // Ebenen-Matrizen: in 2D-Koordinaten einer Fläche (Meter) zeichnen, SVG rechnet in die Isometrie um
   function mat(v) { return 'matrix(' + v.map(function (n) { return n.toFixed(3); }).join(' ') + ')'; }
   function planeY(Y) { return mat([C30 * S, .5 * S, 0, -S, -Y * C30 * S, Y * .5 * S]); }
   function planeX(X) { return mat([-C30 * S, .5 * S, 0, -S, X * C30 * S, X * .5 * S]); }
   function planeZ(Z) { return mat([C30 * S, .5 * S, -C30 * S, .5 * S, 0, -Z * S]); }
-  var L = 5.2, W = 2.4, Z0 = 1.0, H = 2.6, NSC = ' vector-effect="non-scaling-stroke"';
+  var W = 2.4, Z0 = 1.0, H = 2.6, NSC = ' vector-effect="non-scaling-stroke"';
   function wheel(x, y, far) {
     return '<g transform="' + planeY(y) + '"><g class="wh' + (far ? ' far' : '') + '">' +
       '<circle cx="' + x + '" cy=".48" r=".48" class="tyre"' + NSC + '/><circle cx="' + x + '" cy=".48" r=".28" class="rim"' + NSC + '/>' +
@@ -146,94 +152,123 @@
       '<circle cx="' + x + '" cy=".48" r=".07" class="hub"/></g></g>';
   }
   function line(a, b) { var p = P(a[0], a[1], a[2]), q = P(b[0], b[1], b[2]); return 'M' + p[0] + ' ' + p[1] + 'L' + q[0] + ' ' + q[1]; }
-  var svg = '<g id="rig">' +
-    '<g transform="' + planeZ(0) + '"><ellipse cx="3.6" cy="1.2" rx="4.3" ry="1.7" class="t-shadow"/></g>' +
-    wheel(1.3, .05, 1) + wheel(6.2, .15, 1) +
-    // Laderaum innen: Boden, hintere Wand, Stirnwand
-    poly([[0, 0, Z0], [L, 0, Z0], [L, W, Z0], [0, W, Z0]], 't-floor') +
-    poly([[0, 0, Z0], [L, 0, Z0], [L, 0, Z0 + H], [0, 0, Z0 + H]], 't-wall') +
-    poly([[L, 0, Z0], [L, W, Z0], [L, W, Z0 + H], [L, 0, Z0 + H]], 't-wall2') +
-    '<g id="fill"></g>' +
-    // offene Seitenwand als Glaskante mit Rippen, Dach, Stirnwand über dem Fahrerhaus
-    '<g transform="' + planeY(W) + '"><rect x="0" y="' + Z0 + '" width="' + L + '" height="' + H + '" class="t-glass"' + NSC + '/>' +
-    '<rect x="-.05" y="' + (Z0 - .16) + '" width="' + (L + .05) + '" height=".18" class="t-rail"/>' +
-    [1.3, 2.6, 3.9].map(function (x) { return '<path d="M' + x + ' ' + Z0 + 'V' + (Z0 + H) + '" class="t-rib"' + NSC + '/>'; }).join('') + '</g>' +
-    poly([[0, 0, Z0 + H], [L, 0, Z0 + H], [L, W, Z0 + H], [0, W, Z0 + H]], 't-roof', NSC) +
-    poly([[L, 0, Z0 + 1.95], [L, W, Z0 + 1.95], [L, W, Z0 + H], [L, 0, Z0 + H]], 't-front') +
-    // Fahrgestell + Rücklicht
-    '<g transform="' + planeY(2.25) + '"><rect x=".1" y=".72" width="7" height=".3" class="t-chassis"/><rect x="-.05" y=".55" width=".22" height=".3" class="t-light-r"/></g>' +
-    // Fahrerhaus: Seite mit Fenster, Tür, Griff, Logo
-    '<g transform="' + planeY(2.3) + '"><path d="M5.3 .8H7.05V2.1L6.55 2.95H5.3Z" class="cab-side"' + NSC + '/>' +
-    '<path d="M6.0 1.95H6.78L6.48 2.72H6.0Z" class="cab-win"/><path d="M5.5 1.95H5.88V2.72H5.5Z" class="cab-win dim"/>' +
-    '<path d="M5.94 .95V2.75M6.9 1.0V1.92" class="cab-line"' + NSC + '/><rect x="6.55" y="1.55" width=".22" height=".06" class="cab-handle"/>' +
-    '<path d="M5.42 1.3l.16 -.12 .16 .12 .16 -.12 .16 .12" class="cab-logo"' + NSC + '/></g>' +
-    // Front: Stoßstange, Kühlergrill, Scheinwerfer
-    '<g transform="' + planeX(7.05) + '"><rect x=".1" y=".8" width="2.2" height="1.3" class="cab-front"/>' +
-    '<rect x=".15" y=".68" width="2.1" height=".22" class="cab-bumper"/><rect x=".75" y="1.05" width=".9" height=".5" class="cab-grille"/>' +
-    '<rect x=".22" y="1.12" width=".4" height=".22" rx=".05" class="cab-lamp"/><rect x="1.78" y="1.12" width=".4" height=".22" rx=".05" class="cab-lamp"/></g>' +
-    poly([[7.05, .1, 2.1], [7.05, 2.3, 2.1], [6.55, 2.3, 2.95], [6.55, .1, 2.95]], 'cab-wind') +
-    poly([[5.3, .1, 2.95], [6.55, .1, 2.95], [6.55, 2.3, 2.95], [5.3, 2.3, 2.95]], 'cab-roof') +
-    poly([[6.75, 2.3, 2.25], [6.75, 2.58, 2.25], [6.75, 2.58, 1.7], [6.75, 2.3, 1.7]], 'cab-mirror') +
-    wheel(1.3, W, 0) + wheel(6.2, 2.3, 0) +
-    // Lichtkegel der Scheinwerfer
-    '<path d="' + line([7.06, .45, 1.23], [9.6, .1, .3]).replace('L', 'L') + 'L' + P(9.6, 1.0, .3).join(' ') + 'Z" class="t-beam"/>' +
-    '<path d="' + line([7.06, 2.0, 1.23], [9.6, 1.6, .3]) + 'L' + P(9.6, 2.6, .3).join(' ') + 'Z" class="t-beam"/>' +
-    '</g>';
-  truckSvg.innerHTML = svg;
-  var fill = $('#fill', truckSvg);
-  (function () {
-    var nx = 4, ny = 3, nz = 3, dx = (L - .2) / nx, dy = (W - .2) / ny, dz = (H - .15) / nz, g = .9;
-    var all = [];
+  function rigSvg(L) {
+    var c = L + .1, rx = Math.max(.9, L * .25), axles = L >= 8 ? [rx, rx + 1.05] : [rx], f = L + 1.0, ribs = [];
+    for (var r = 1.3; r < L - .2; r += 1.3) ribs.push(r);
+    return '<g id="rig">' +
+      '<g transform="' + planeZ(0) + '"><ellipse cx="' + ((L + 1.9) / 2) + '" cy="1.2" rx="' + ((L + 3.2) / 2) + '" ry="1.7" class="t-shadow"/></g>' +
+      axles.map(function (a) { return wheel(a, .05, 1); }).join('') + wheel(f, .15, 1) +
+      poly([[0, 0, Z0], [L, 0, Z0], [L, W, Z0], [0, W, Z0]], 't-floor') +
+      poly([[0, 0, Z0], [L, 0, Z0], [L, 0, Z0 + H], [0, 0, Z0 + H]], 't-wall') +
+      poly([[L, 0, Z0], [L, W, Z0], [L, W, Z0 + H], [L, 0, Z0 + H]], 't-wall2') +
+      '<g id="fill"></g>' +
+      '<g transform="' + planeY(W) + '"><rect x="0" y="' + Z0 + '" width="' + L + '" height="' + H + '" class="t-glass"' + NSC + '/>' +
+      '<rect x="-.05" y="' + (Z0 - .16) + '" width="' + (L + .05) + '" height=".18" class="t-rail"/>' +
+      ribs.map(function (x) { return '<path d="M' + x + ' ' + Z0 + 'V' + (Z0 + H) + '" class="t-rib"' + NSC + '/>'; }).join('') + '</g>' +
+      poly([[0, 0, Z0 + H], [L, 0, Z0 + H], [L, W, Z0 + H], [0, W, Z0 + H]], 't-roof', NSC) +
+      poly([[L, 0, Z0 + 1.95], [L, W, Z0 + 1.95], [L, W, Z0 + H], [L, 0, Z0 + H]], 't-front') +
+      '<g transform="' + planeY(2.25) + '"><rect x=".1" y=".72" width="' + (L + 1.8) + '" height=".3" class="t-chassis"/><rect x="-.05" y=".55" width=".22" height=".3" class="t-light-r"/></g>' +
+      '<g transform="' + planeY(2.3) + '"><path d="M' + c + ' .8H' + (c + 1.75) + 'V2.1L' + (c + 1.25) + ' 2.95H' + c + 'Z" class="cab-side"' + NSC + '/>' +
+      '<path d="M' + (c + .7) + ' 1.95H' + (c + 1.48) + 'L' + (c + 1.18) + ' 2.72H' + (c + .7) + 'Z" class="cab-win"/><path d="M' + (c + .2) + ' 1.95H' + (c + .58) + 'V2.72H' + (c + .2) + 'Z" class="cab-win dim"/>' +
+      '<path d="M' + (c + .64) + ' .95V2.75M' + (c + 1.6) + ' 1.0V1.92" class="cab-line"' + NSC + '/><rect x="' + (c + 1.25) + '" y="1.55" width=".22" height=".06" class="cab-handle"/>' +
+      '<path d="M' + (c + .12) + ' 1.3l.16 -.12 .16 .12 .16 -.12 .16 .12" class="cab-logo"' + NSC + '/></g>' +
+      '<g transform="' + planeX(c + 1.75) + '"><rect x=".1" y=".8" width="2.2" height="1.3" class="cab-front"/>' +
+      '<rect x=".15" y=".68" width="2.1" height=".22" class="cab-bumper"/><rect x=".75" y="1.05" width=".9" height=".5" class="cab-grille"/>' +
+      '<rect x=".22" y="1.12" width=".4" height=".22" rx=".05" class="cab-lamp"/><rect x="1.78" y="1.12" width=".4" height=".22" rx=".05" class="cab-lamp"/></g>' +
+      poly([[c + 1.75, .1, 2.1], [c + 1.75, 2.3, 2.1], [c + 1.25, 2.3, 2.95], [c + 1.25, .1, 2.95]], 'cab-wind') +
+      poly([[c, .1, 2.95], [c + 1.25, .1, 2.95], [c + 1.25, 2.3, 2.95], [c, 2.3, 2.95]], 'cab-roof') +
+      poly([[c + 1.45, 2.3, 2.25], [c + 1.45, 2.58, 2.25], [c + 1.45, 2.58, 1.7], [c + 1.45, 2.3, 1.7]], 'cab-mirror') +
+      axles.map(function (a) { return wheel(a, W, 0); }).join('') + wheel(f, 2.3, 0) +
+      '<path d="' + line([c + 1.76, .45, 1.23], [c + 3.6, .15, .3]) + 'L' + P(c + 3.6, .95, .3).join(' ') + 'Z" class="t-beam"/>' +
+      '<path d="' + line([c + 1.76, 2.0, 1.23], [c + 3.6, 1.65, .3]) + 'L' + P(c + 3.6, 2.5, .3).join(' ') + 'Z" class="t-beam"/>' +
+      '</g>';
+  }
+  var cur = 1, curL = CLS[1].L, rig, spokes, fill, off = 0, shown = 0, lastN = 0;
+  function build(L) {
+    truckSvg.innerHTML = rigSvg(L);
+    rig = $('#rig', truckSvg); spokes = $$('.spokes', truckSvg); fill = $('#fill', truckSvg); SLOTS = [];
+    var nx = Math.max(2, Math.round(L / 1.3)), ny = 3, nz = 3, dx = (L - .2) / nx, dy = (W - .2) / ny, dz = (H - .15) / nz, g = .9, all = [];
     for (var z = 0; z < nz; z++) for (var x = 0; x < nx; x++) for (var y = 0; y < ny; y++) {
-      var x0 = .1 + x * dx, y0 = .1 + y * dy, z0 = Z0 + z * dz, a = dx * g, b = dy * g, c = dz * g;
+      var x0 = .1 + x * dx, y0 = .1 + y * dy, z0 = Z0 + z * dz, a = dx * g, b = dy * g, cc = dz * g;
       var el = document.createElementNS(NS, 'g');
-      el.innerHTML = poly([[x0 + a, y0, z0], [x0 + a, y0 + b, z0], [x0 + a, y0 + b, z0 + c], [x0 + a, y0, z0 + c]], 'box-s') +
-        poly([[x0, y0 + b, z0], [x0 + a, y0 + b, z0], [x0 + a, y0 + b, z0 + c], [x0, y0 + b, z0 + c]], 'box-f') +
-        poly([[x0, y0, z0 + c], [x0 + a, y0, z0 + c], [x0 + a, y0 + b, z0 + c], [x0, y0 + b, z0 + c]], 'box-t') +
-        '<path d="' + line([x0 + a * .5, y0 + b, z0 + c], [x0 + a * .5, y0 + b, z0 + c * .55]) + '" class="box-tape"/>';
+      el.innerHTML = poly([[x0 + a, y0, z0], [x0 + a, y0 + b, z0], [x0 + a, y0 + b, z0 + cc], [x0 + a, y0, z0 + cc]], 'box-s') +
+        poly([[x0, y0 + b, z0], [x0 + a, y0 + b, z0], [x0 + a, y0 + b, z0 + cc], [x0, y0 + b, z0 + cc]], 'box-f') +
+        poly([[x0, y0, z0 + cc], [x0 + a, y0, z0 + cc], [x0 + a, y0 + b, z0 + cc], [x0, y0 + b, z0 + cc]], 'box-t') +
+        '<path d="' + line([x0 + a * .5, y0 + b, z0 + cc], [x0 + a * .5, y0 + b, z0 + cc * .55]) + '" class="box-tape"/>';
       el.style.opacity = 0; el.style.transform = 'translateY(-36px)';
       // Beladen wie echt: unten zuerst, vorne an der Stirnwand zuerst, innen vor außen
-      all.push({ g: el, fillKey: z * 100 + (nx - 1 - x) * 10 + y, drawKey: x + y + z * 1.01 });
+      all.push({ g: el, fillKey: z * 1000 + (nx - 1 - x) * 10 + y, drawKey: x + y + z * 1.01 });
     }
     all.slice().sort(function (p, q) { return p.drawKey - q.drawKey; }).forEach(function (s) { fill.appendChild(s.g); });
     all.sort(function (p, q) { return p.fillKey - q.fillKey; }).forEach(function (s) { SLOTS.push(s); });
-  })();
-  // Anfahrt beim ersten Sichtkontakt: LKW rollt von links oben ins Bild, Räder drehen sich mit
-  var rig = $('#rig', truckSvg), spokes = $$('.spokes', truckSvg), drove = false, DIST = 6;
-  function rigAt(off) { rig.setAttribute('transform', 'translate(' + (-off * C30 * S).toFixed(1) + ' ' + (-off * .5 * S).toFixed(1) + ')'); }
+    rigAt(off); shown = 0;
+  }
+  function rigAt(o) {
+    off = o;
+    if (rig) rig.setAttribute('transform', 'translate(' + (-o * C30 * S).toFixed(1) + ' ' + (-o * .5 * S).toFixed(1) + ')');
+    var ang = (-o / .48 * 57.3).toFixed(1);
+    if (spokes) spokes.forEach(function (s) { s.style.transform = 'rotate(' + ang + 'deg)'; });
+  }
+  var drove = false, DIST = 6;
   function drive() {
     if (drove) return; drove = true;
     var t0 = performance.now(), D = RM ? 0 : 1600;
     (function st(t) {
-      var k = D ? clamp((t - t0) / D, 0, 1) : 1, e = 1 - Math.pow(1 - k, 3), off = (1 - e) * DIST;
-      rigAt(off);
-      var ang = (-off / .48 * 57.3).toFixed(1);
-      spokes.forEach(function (s) { s.style.transform = 'rotate(' + ang + 'deg)'; });
+      var k = D ? clamp((t - t0) / D, 0, 1) : 1, e = 1 - Math.pow(1 - k, 3);
+      rigAt((1 - e) * DIST);
       if (k < 1) requestAnimationFrame(st);
     })(t0);
   }
-  rigAt(RM ? 0 : DIST);
-  var shown = 0;
+  // Wachsen: Koffer zieht sich in die Länge, Fahrerhaus rollt mit, dann wird neu beladen
+  var growing = 0;
+  function grow(toL, done) {
+    var fromL = curL, t0 = performance.now(), D = RM ? 0 : 750, id = ++growing;
+    truckSvg.classList.add('grow');
+    (function st(t) {
+      if (id !== growing) return;
+      var k = D ? clamp((t - t0) / D, 0, 1) : 1, e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      curL = fromL + (toL - fromL) * e;
+      truckSvg.innerHTML = rigSvg(curL); rig = $('#rig', truckSvg); spokes = $$('.spokes', truckSvg); rigAt(off);
+      if (k < 1) requestAnimationFrame(st); else { curL = toL; build(toL); truckSvg.classList.remove('grow'); done(); }
+    })(t0);
+  }
+  build(curL); rigAt(RM ? 0 : DIST);
+  function fillTo(n) {
+    SLOTS.forEach(function (s, i) {
+      var on = i < n;
+      s.g.style.transitionDelay = (on ? Math.max(0, i - shown) * 35 : 0) + 'ms';
+      s.g.style.opacity = on ? 1 : 0; s.g.style.transform = on ? 'none' : 'translateY(-40px)';
+    });
+    shown = n;
+  }
   function calc() {
     var m3 = 0;
     $$('li', ul).forEach(function (li, i) { $('b', li).textContent = qty[i]; li.classList.toggle('has', qty[i] > 0); m3 += qty[i] * CAT[i][1]; });
     var floor = +$('#floorA').value, km = +$('#km').value, lift = $('#optLift').checked, pack = $('#pack').checked, hvz = $('#hvz').checked;
     m3 = Math.round(m3 * 10) / 10;
-    var crew = m3 < 12 ? 2 : m3 < 30 ? 3 : 4;
-    var truck = m3 < 14 ? '3,5 t' : m3 < 34 ? '7,5 t' : '12 t';
-    var hours = Math.max(3, Math.round(m3 * (lift || floor === 0 ? .22 : .22 + floor * .05) + km / 60 + (pack ? m3 * .12 : 0)));
-    var base = hours * crew * 39 + (m3 < 14 ? 120 : m3 < 34 ? 190 : 290) + km * 1.6 + (lift && floor > 0 ? 220 : 0) + (pack ? m3 * 14 : 0) + (hvz ? 140 : 0);
+    var ci = 0; while (ci < CLS.length - 1 && m3 > CLS[ci].cap) ci++;
+    var cl = CLS[ci], over = Math.max(0, m3 - cl.cap), two = over > 0;
+    var crew = m3 < 12 ? 2 : m3 < 30 ? 3 : m3 < 50 ? 4 : m3 < 70 ? 5 : 6;
+    var hours = Math.max(3, Math.round(m3 * (lift || floor === 0 ? .22 : .22 + floor * .05) / (crew / 3) + km / 60 + (pack ? m3 * .12 : 0)));
+    var base = hours * crew * 39 + cl.base + (two ? 120 + km * 1.2 : 0) + km * 1.6 + (lift && floor > 0 ? 220 : 0) + (pack ? m3 * 14 : 0) + (hvz ? 140 : 0);
     var from = Math.round(base * .92 / 10) * 10, to = Math.round(base * 1.12 / 10) * 10;
     count($('#m3'), m3, 1); count($('#pFrom'), from, 0); count($('#pTo'), to, 0);
-    $('#truckSize').textContent = truck; $('#crew').textContent = crew; $('#hours').textContent = hours;
-    // LKW-Füllung: 36 Plätze ~ 40 m³
-    var n = clamp(Math.round(m3 / 40 * SLOTS.length), m3 > 0 ? 1 : 0, SLOTS.length);
-    SLOTS.forEach(function (s, i) {
-      var on = i < n;
-      s.g.style.transitionDelay = (on ? Math.max(0, i - shown) * 40 : 0) + 'ms';
-      s.g.style.opacity = on ? 1 : 0; s.g.style.transform = on ? 'none' : 'translateY(-40px)';
-    });
-    shown = n;
+    $('#truckSize').textContent = two ? cl.n + ' + 3,5 t' : cl.n; $('#crew').textContent = crew; $('#hours').textContent = hours;
+    var pct = Math.min(100, Math.round(m3 / cl.cap * 100));
+    $('#loadBar').style.width = pct + '%';
+    $('#loadTxt').textContent = 'Laderaum ' + cl.n + ' · ' + cl.cap + ' m³ · ' + pct + ' % belegt';
+    var msg = $('#truckMsg');
+    if (two) msg.textContent = 'Mehr als in einen 18-Tonner passt: ' + de(over, 1) + ' m³ fahren in einem zweiten LKW mit.';
+    else if (pct >= 90) msg.textContent = 'Fast voll. Noch ein Stück mehr, und es wird der nächstgrößere LKW.';
+    else if (ci > 0) msg.textContent = 'Zu viel für den ' + CLS[ci - 1].n.replace(' t', '-Tonner') + ' – wir kommen mit dem ' + cl.n.replace(' t', '-Tonner') + '. Noch ' + de(cl.cap - m3, 1) + ' m³ frei.';
+    else msg.textContent = 'Passt rein. Noch ' + de(cl.cap - m3, 1) + ' m³ Platz.';
+    msg.classList.toggle('warn', two || pct >= 90);
+    var n = clamp(Math.round(Math.min(1, m3 / cl.cap) * SLOTS.length), m3 > 0 ? 1 : 0, SLOTS.length);
+    if (ci !== cur) {
+      cur = ci;
+      grow(cl.L, function () { var k = clamp(Math.round(Math.min(1, m3 / cl.cap) * SLOTS.length), m3 > 0 ? 1 : 0, SLOTS.length); requestAnimationFrame(function () { requestAnimationFrame(function () { fillTo(k); }); }); });
+    } else if (!truckSvg.classList.contains('grow')) fillTo(n);
+    window.zvM3 = m3; document.dispatchEvent(new CustomEvent('zv:m3', { detail: m3 }));
   }
   var cnt = new WeakMap();
   function count(el, to, d) {
@@ -281,11 +316,50 @@
     S5.style.setProperty('--sd', ((1 - ease(seg(b, 0, .6))) * 220).toFixed(1) + 'px');
     S5.style.setProperty('--sd2', ((1 - ease(seg(b, .3, 1))) * 220).toFixed(1) + 'px');
     S5.style.setProperty('--ro', ((1 - c) * 800).toFixed(1));
-    S5.style.setProperty('--tx', (-120 + ease(c) * 950).toFixed(1) + 'px');
+    // LKW: fährt ein, Räder drehen nach Strecke, Federung wippt, bremst mit Nicken, parkt mit Warnblinker, Ladebordwand fährt runter
+    var tx = -320 + (1 - Math.pow(1 - c, 2.2)) * 1150, v = c < 1 ? Math.pow(1 - c, 1.2) : 0;
+    S5.style.setProperty('--tx', tx.toFixed(1) + 'px');
+    S5.style.setProperty('--wr', (tx / 23 * 57.3).toFixed(1) + 'deg');
+    S5.style.setProperty('--bob', (Math.sin(tx / 18) * 1.6 * v).toFixed(2) + 'px');
+    var brake = band(c, .8, 1, .1); S5.style.setProperty('--pitch', (brake * 1.6).toFixed(2) + 'deg');
+    S5.style.setProperty('--smoke', (c > 0 && c < .97 ? v : 0).toFixed(2));
+    S5.style.setProperty('--beam', (c > 0 && c < .98 ? .9 : 0).toString());
+    var r = seg(p, .9, 1); S5.style.setProperty('--ra', (-90 * seg(r, 0, .5)).toFixed(1) + 'deg'); S5.style.setProperty('--rl', (seg(r, .5, 1) * 30).toFixed(1) + 'px');
+    S5.classList.toggle('parked', c >= .985);
     S5.style.setProperty('--lit', seg(p, .85, .95).toFixed(3));
     S5.style.setProperty('--tp', (a * .0 + (b > 0 ? .5 * b : 0) + (c > 0 ? .5 * c : 0)).toFixed(3));
     tls[0].classList.toggle('on', a > .3); tls[1].classList.toggle('on', b > .5); tls[2].classList.toggle('on', c > .9);
   }
+
+
+  /* 7 Leistungen: Kachel antippen → Details; Versicherung rechnet mit dem m³ aus dem Rechner */
+  (function () {
+    var D = JSON.parse($('#svData').textContent), box = $('#svd'), act = null;
+    new IntersectionObserver(function (es, o) { es.forEach(function (e) { if (e.isIntersecting) { $('#leistungen').classList.add('in'); o.disconnect(); } }); }, { threshold: .2 }).observe($('#leistungen'));
+    $$('.sv').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var k = b.getAttribute('data-sv'), same = act === b;
+        $$('.sv').forEach(function (x) { x.setAttribute('aria-expanded', 'false'); });
+        if (same) { box.hidden = true; act = null; return; }
+        act = b; b.setAttribute('aria-expanded', 'true');
+        $('#svT').textContent = D[k].n;
+        $('#svB').innerHTML = D[k].b.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+        box.hidden = false; box.style.animation = 'none'; void box.offsetWidth; box.style.animation = '';
+        if (mobile()) box.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'nearest' });
+      });
+    });
+    var wert = $('#vWert'), m3 = 36.2;
+    function vers() {
+      var h = Math.round(m3 * 620), w = +wert.value, mx = Math.max(h, w, 1), sc = 400 / mx;
+      $('#vM3').textContent = de(m3, 1); count($('#vHaft'), h, 0); $('#vWertT').textContent = de(w, 0);
+      $('#vbH').setAttribute('width', (h * sc).toFixed(1)); $('#vbW').setAttribute('width', (w * sc).toFixed(1));
+      var gap = Math.max(0, w - h); $('#vbG').setAttribute('x', (h * sc).toFixed(1)); $('#vbG').setAttribute('width', (gap * sc).toFixed(1));
+      $('#vNote').textContent = gap > 0 ? 'Rot markiert: ' + de(gap, 0) + ' € wären nur mit Transportversicherung zum Neuwert gedeckt.' : 'Ihr Hausrat ist durch die gesetzliche Haftung vollständig abgedeckt.';
+    }
+    wert.addEventListener('input', vers);
+    document.addEventListener('zv:m3', function (e) { m3 = e.detail || 0; vers(); });
+    vers();
+  })();
 
   /* 6 Live-Status */
   var S6 = $('#live'), feed = $$('#feed li'), lr = $('#lroute'), lt = $('#ltruck'), LEN = lr.getTotalLength();
