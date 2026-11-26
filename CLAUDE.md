@@ -37,7 +37,7 @@ sjinn.ai (Chrome, eingeloggt) ✅ · GitHub Engelstraenen (gh) – beim Deploy p
 - Bilder: `python3 tools/assets.py` (assets-roh/img/zv-*.jpg → site/assets/img/*.webp, 3840 + 1800 px, mit Cache)
 - Filme: `python3 tools/video.py <roh.mp4> lift|sofa|crew` (All-Intra, Desktop/Hochkant/Quer, trägt vid.js ein)
 - Prüfen: `python3 tools/desk_check.py 1440x900`, `python3 tools/mobil_check.py http://localhost:4395/`
-- Veröffentlichen: `git subtree split --prefix site -b gh-pages && git push -f origin gh-pages` → https://engelstraenen.github.io/zugvogel-site/
+- Veröffentlichen: T=$(git rev-parse main:site); C=$(git commit-tree "$T" -p origin/gh-pages -m pages); Länge 40 prüfen; git -c http.postBuffer=524288000 push -f origin "${C}:refs/heads/gh-pages" → https://engelstraenen.github.io/zugvogel-site/ (nie subtree split, V2.77)
 
 ## 8. Offene Fragen
 - Endrender 2K (MiniMax H3) braucht Credits: Guthaben 23.11. nur 38 Credits.
@@ -49,3 +49,4 @@ sjinn.ai (Chrome, eingeloggt) ✅ · GitHub Engelstraenen (gh) – beim Deploy p
 
 ## 10. Ablage
 konzepte/ (Storyboards + Prompts) · tools/ (sjinn_queue.js, jobs.json) · site/ · assets-roh/ · verlauf/
+- 26.11.2026: Eugen behält das bisherige Design; Neubau-Storyboards (konzepte/neubau/) nicht gewählt.
