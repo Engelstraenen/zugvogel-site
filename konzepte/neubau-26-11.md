@@ -16,7 +16,7 @@ Kernleistung (Branche wörtlich): Umzugsfirma = Privat- und Firmenumzüge planen
 ## 2. Woran hat noch niemand gedacht? (≥ 3 werden eingebaut)
 1. Farb-Etikett je Raum + QR auf jedem Karton: neue Wohnung bekommt dieselben Farbpunkte an den Türen, Team trägt ohne Fragen; QR zeigt Packliste.
 2. „Erste-Nacht-Karton“: zuletzt rein, zuerst raus (Bettzeug, Ladekabel, Kaffee, Klopapier, Werkzeug), Liste zum Abhaken.
-3. Fristen-Rechner: Umzugsdatum eingeben → Halteverbot spätestens beantragen, Schilder stehen 72 h vorher, Ummelden binnen 14 Tagen (§ 17 BMG) als Kalender-Datei.
+3. Fristen-Rechner: Umzugsdatum eingeben → Halteverbot spätestens beantragen, Schilder stehen 3 volle Tage vorher (BVerwG 24.05.2018, 3 C 25.16), Ummelden binnen 14 Tagen (§ 17 BMG) als Kalender-Datei.
 4. Trageweg-Rechner: Etage, Aufzug, Laufweg in m → ab wann Möbellift günstiger ist.
 5. Stauplan: Kunde sieht, wo im LKW sein empfindlichstes Stück steht (oben, gesichert, gepolstert).
 
@@ -35,3 +35,9 @@ A single 16:9 storyboard sheet, 3x3 grid of nine photorealistic frames with thin
 
 ### SB3 – Vogelperspektive
 A single 16:9 storyboard sheet, 3x3 grid of nine photorealistic frames with thin gutters, all frames shot strictly top-down orthographic from directly above like a drone at 40 metres, never at an angle. Colour world: deep petrol #0e3b43 shadows and asphalt, warm sunlight, coral #ff6f59 accents only on markings and the company truck stripe, crisp 4K aerial photography. Frame 1: top-down of a German inner-city street with trees and parked cars, one house roof, a thin coral line starts at its door. Frame 2: same street, two temporary no-parking signs, an empty kerbside zone marked with coral tape, early morning shadows. Frame 3: a white 7.5-tonne moving truck with a coral stripe parks exactly in the zone, a furniture ladder lift extends toward the roof edge. Frame 4: the truck roof shown as transparent cut-away from above: neatly stacked boxes and blanket-wrapped furniture, lashing straps, one box highlighted in coral. Frame 5: the truck drives on a road between fields, a coral route line on the road behind it, long late-afternoon shadows. Frame 6: the truck on a motorway viewed from above among other vehicles, tiny, coral line continues. Frame 7: top-down of a new modern residential building courtyard, truck parked, movers carrying furniture in a line across the courtyard, small coral dots on the ground leading to the entrance. Frame 8: top-down cut-away floor plan of the new apartment from above, roof removed, furniture placed in rooms, coral dots marking each room. Frame 9: dusk, top-down of the new building, windows glowing warm, the coral route line ends at the door, empty petrol space for a call-to-action. No clichés, no cartoon, no text, no logos, no readable licence plates, consistent truck in every frame.
+
+## 5. Branchendaten (geprüft 26.11.2026, für Diagramme)
+- Binnenwanderung: seit 1991 stabil rund 4 Mio. Umzüge pro Jahr über Gemeindegrenzen (bpb nach Destatis); Umzüge innerhalb einer Gemeinde nicht gezählt. 2021: gut 1/3 (1,1 Mio.) über Bundesländergrenzen. https://www.bpb.de/themen/migration-integration/regionalprofile/deutschland/548245/binnenmigration-in-deutschland-1991-2022/
+- Deutsche Post Adress (Firmenstudie): über 8 Mio. Menschen ziehen jährlich um (~10 %). https://group.dhl.com/de/presse/pressemitteilungen/2024/deutsche-post-adress-analysiert-umzuege.html
+- Halteverbot: Abschleppkosten erst ab dem 4. Tag nach Aufstellen (3 volle Tage), BVerwG 24.05.2018, 3 C 25.16. https://www.bverwg.de/pm/2018/33
+- Ummelden binnen 2 Wochen nach Einzug (§ 17 BMG).
