@@ -2,7 +2,7 @@
 """Scroll-Videos für ein Filmkapitel bauen, OHNE Verkleinern.
 
 Start: python3 tools/video.py <roh.mp4> <kapitel> [--t <sekunden>]   (kapitel = lift | sofa | crew)
-Ziel:  site/assets/vid/<kapitel>.mp4    Desktop: volle Quellauflösung, All-Intra (jedes Bild Keyframe -> ruckelfreies Spulen)
+Ziel:  site/assets/vid/<kapitel>.mp4    Desktop: volle Quellauflösung, All-Intra (jedes Bild Keyframe -> ruckelfreies Spulen), nachgeschärft (unsharp 0.7)
        site/assets/vid/<kapitel>-p.mp4  Handy hochkant: Ausschnitt 3:4 in voller Quellhöhe, Lage wie object-position
        site/assets/vid/<kapitel>-m.mp4  Handy quer: ganzes Bild, höchstens 1280 breit
 Trägt das Kapitel in site/assets/js/vid.js ein (Versionsstempel). Nie hochskalieren.
@@ -33,7 +33,7 @@ def enc(src, dst, vf, crf, t=None):
     cmd = ["ffmpeg", "-y", "-v", "error", "-i", src]
     if t:
         cmd += ["-t", str(t)]
-    cmd += ["-an", "-vf", vf + ",format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
+    cmd += ["-an", "-vf", vf + ",unsharp=5:5:0.7,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
             "-tune", "film", "-g", "1", "-keyint_min", "1", "-sc_threshold", "0", "-movflags", "+faststart", dst]
     subprocess.check_call(cmd)
     return os.path.getsize(dst) // 1024

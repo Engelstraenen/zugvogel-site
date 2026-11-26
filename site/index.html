@@ -24,6 +24,7 @@
     <a href="#besichtigung">Besichtigung</a>
     <a href="#halteverbot">Halteverbot</a>
     <a href="#live">Umzugstag</a>
+    <a href="#leistungen">Leistungen</a>
     <a href="#karriere">Karriere</a>
     <a href="#bewertungen">Bewertungen</a>
   </nav>
@@ -76,7 +77,7 @@
   <div class="wrap">
     <p class="kicker">Umzugsrechner</p>
     <h2>Festpreis statt<br>Rätselraten.</h2>
-    <p class="lead">Zimmer wählen, Möbel antippen – der LKW füllt sich mit. Sie sehen sofort, wie viel Platz Ihr Hausrat braucht.</p>
+    <p class="lead">Zimmer wählen, Möbel antippen – der LKW füllt sich mit. Wird es zu viel, wächst er: vom 3,5-Tonner bis zum 18-Tonner.</p>
     <div class="calc-grid">
       <div class="calc-in">
         <div class="tabs" role="tablist" aria-label="Wohnungsgröße">
@@ -92,7 +93,8 @@
         </div>
       </div>
       <div class="calc-out">
-        <svg class="truck" id="truck" viewBox="-100 -140 310 300" aria-hidden="true"></svg>
+        <svg class="truck" id="truck" viewBox="-95 -140 440 360" aria-hidden="true"></svg>
+        <div class="load"><span id="loadTxt">Laderaum</span><i><b id="loadBar"></b></i><p id="truckMsg" aria-live="polite"></p></div>
         <div class="readout">
           <div><span class="big"><b id="m3">0</b> m³</span><small>Umzugsgut</small></div>
           <div><span class="mid" id="truckSize">7,5 t</span><small>LKW</small></div>
@@ -155,7 +157,7 @@
       <rect class="zone" x="620" y="585" width="420" height="50" rx="4"/>
       <g class="sign s1"><line x1="0" y1="0" x2="0" y2="-120"/><circle cx="0" cy="-150" r="30"/><path d="M-21 -171 L21 -129 M21 -171 L-21 -129"/></g>
       <g class="sign s2"><line x1="0" y1="0" x2="0" y2="-120"/><circle cx="0" cy="-150" r="30"/><path d="M-21 -171 L21 -129 M21 -171 L-21 -129"/></g>
-      <g class="minitruck" id="mt"><rect x="-70" y="-26" width="96" height="52" rx="4" fill="#f4f6fb"/><rect x="26" y="-18" width="34" height="44" rx="4" fill="#dfe5f0"/></g>
+      <g class="minitruck" id="mt"><g class="mt-in"><ellipse cx="-60" cy="30" rx="150" ry="9" class="mt-shadow"/><g class="mt-beam"><path d="M58 -14 L330 -48 L330 22 Z"/></g><g class="mt-body"><rect x="-196" y="-8" width="246" height="12" rx="2" class="mt-chassis"/><rect x="-192" y="-128" width="176" height="122" rx="5" class="mt-box"/><path d="M-150 -128V-6M-108 -128V-6M-66 -128V-6" class="mt-rib"/><rect x="-192" y="-62" width="176" height="16" class="mt-stripe"/><path d="M-180 -100 l14 12 6 -6 6 6 14 -12 v7 l-14 12 -6 -6 -6 6 -14 -12z" class="mt-logo"/><text x="-136" y="-86" class="mt-name">ZUGVOGEL</text><rect x="-197" y="-34" width="8" height="16" rx="2" class="mt-tail"/><rect x="-197" y="-52" width="8" height="10" rx="2" class="mt-blink b1"/><g class="mt-ramp"><rect x="-203" y="-66" width="8" height="60" rx="2"/></g><path d="M-12 -86 H34 Q48 -86 54 -64 L62 -34 V0 H-12 Z" class="mt-cab"/><path d="M2 -78 H32 Q42 -78 46 -62 L50 -46 H2 Z" class="mt-win"/><path d="M-4 -40 H10" class="mt-handle"/><rect x="52" y="-26" width="12" height="9" rx="3" class="mt-lamp"/><rect x="54" y="-38" width="8" height="7" rx="2" class="mt-blink b2"/><rect x="-14" y="-8" width="80" height="12" rx="3" class="mt-bumper"/><path d="M30 -84 v-6 h10" class="mt-mirror"/></g><g class="hw" transform="translate(-150 6)"><circle r="23" class="hw-tyre"/><circle r="13" class="hw-rim"/><g class="hw-sp"><path d="M-11 0H11M0 -11V11M-8 -8L8 8M8 -8L-8 8"/></g><circle r="4" class="hw-hub"/></g><g class="hw" transform="translate(-110 6)"><circle r="23" class="hw-tyre"/><circle r="13" class="hw-rim"/><g class="hw-sp"><path d="M-11 0H11M0 -11V11M-8 -8L8 8M8 -8L-8 8"/></g><circle r="4" class="hw-hub"/></g><g class="hw" transform="translate(28 6)"><circle r="23" class="hw-tyre"/><circle r="13" class="hw-rim"/><g class="hw-sp"><path d="M-11 0H11M0 -11V11M-8 -8L8 8M8 -8L-8 8"/></g><circle r="4" class="hw-hub"/></g><g class="mt-smoke"><circle cx="-205" cy="-2" r="6"/><circle cx="-222" cy="-8" r="9"/><circle cx="-244" cy="-14" r="12"/></g></g></g>
     </svg>
     <div class="hvz-copy">
       <p class="kicker">Halteverbotszone</p>
@@ -164,7 +166,7 @@
     </div>
     <ol class="tl" id="tl">
       <li><i></i><b>Antrag</b><small>wir bei der Stadt</small></li>
-      <li><i></i><b>Schilder</b><small>meist 3–4 Tage vorher</small></li>
+      <li><i></i><b>Schilder</b><small>mind. 3 volle Tage vorher</small></li>
       <li><i></i><b>Umzugstag</b><small>LKW direkt vor der Tür</small></li>
     </ol>
   </div>
@@ -197,6 +199,45 @@
         </svg>
         <div class="card" id="card"><small id="cardT">07:12</small><b id="cardS">Team unterwegs – Ankunft 7:30</b><span class="bar"><i id="cardBar"></i></span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 LEISTUNGEN + VERSICHERUNG -->
+<section class="leist" id="leistungen">
+  <div class="wrap">
+    <p class="kicker">Leistungen</p>
+    <h2>Alles, was beim<br>Umzug anfällt.</h2>
+    <p class="lead">Zwölf Leistungen, ein Ansprechpartner, ein Festpreis. Antippen zeigt, was genau dazugehört.</p>
+    <ul class="sv-grid" id="svGrid"><li><button type="button" class="sv" data-sv="privat" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 22 24 9l16 13v17H8z M19 39V28h10v11"/></svg><b>Privatumzug</b><small>Wohnung, Haus, WG – mit Festpreis.</small></button></li><li><button type="button" class="sv" data-sv="firma" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 40V10h20v30 M30 18h8v22 M16 16h4M16 23h4M16 30h4M10 40h30"/></svg><b>Firmen- & Büroumzug</b><small>Am Wochenende, montags läuft alles.</small></button></li><li><button type="button" class="sv" data-sv="pack" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 16 24 8l16 8v18l-16 8-16-8z M8 16l16 8 16-8 M24 24v18"/></svg><b>Packservice & Material</b><small>Wir packen ein – oder liefern Kartons.</small></button></li><li><button type="button" class="sv" data-sv="montage" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36 28 20 M26 14a6 6 0 1 0 8 8l6 6-6 6-6-6 M10 38l4-4"/></svg><b>Möbel- & Küchenmontage</b><small>Abbau, Aufbau, Anschluss.</small></button></li><li><button type="button" class="sv" data-sv="lift" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 42 34 6 M18 34h10 M22 26h10 M26 18h10 M30 42h10"/></svg><b>Möbellift</b><small>Außen hoch statt durchs Treppenhaus.</small></button></li><li><button type="button" class="sv" data-sv="hvz" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42V24 M24 6a9 9 0 1 1 0 18 9 9 0 0 1 0-18z M18 9l12 12 M30 9 18 21"/></svg><b>Halteverbotszone</b><small>Antrag, Schilder, Fotoprotokoll.</small></button></li><li><button type="button" class="sv" data-sv="lager" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 40V18l18-10 18 10v22 M12 40V24h24v16 M12 30h24 M12 35h24"/></svg><b>Einlagerung</b><small>Trocken, abschließbar, monatlich kündbar.</small></button></li><li><button type="button" class="sv" data-sv="schwer" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 34V16h32v18 M8 24h32 M14 34v6M34 34v6 M14 16v8M20 16v8M26 16v8M32 16v8"/></svg><b>Klavier & Schwerlast</b><small>Klavier, Tresor, Aquarium.</small></button></li><li><button type="button" class="sv" data-sv="senior" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10 M16 44l3-18h10l3 18 M14 26l-4 10 M34 26l4 10"/></svg><b>Seniorenumzug</b><small>Ruhig, mit Zeit und einem festen Team.</small></button></li><li><button type="button" class="sv" data-sv="entr" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 14h24l-2 28H14z M8 14h32 M19 8h10v6 M20 20v16M28 20v16"/></svg><b>Entrümpelung & Entsorgung</b><small>Was nicht mitkommt, geht fachgerecht.</small></button></li><li><button type="button" class="sv" data-sv="reinigung" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 6 18 30 M14 30h16l-4 12H10z M34 14l6-2M36 22l6 1"/></svg><b>Endreinigung & Übergabe</b><small>Schlüssel abgeben, Kaution zurück.</small></button></li><li><button type="button" class="sv" data-sv="fern" aria-expanded="false" aria-controls="svd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42a18 18 0 1 0 0-36 18 18 0 0 0 0 36z M6 24h36 M24 6c-6 6-6 30 0 36 M24 6c6 6 6 30 0 36"/></svg><b>Fern- & Auslandsumzug</b><small>Europaweit, mit Zollpapieren.</small></button></li></ul>
+    <div class="sv-detail" id="svd" hidden><div><h3 id="svT"></h3><ul id="svB"></ul></div><button class="btn btn-or" data-open="anfrage">In den Festpreis aufnehmen</button></div>
+    <script type="application/json" id="svData">{"privat": {"n": "Privatumzug", "b": ["Festpreis nach Video-Besichtigung, schriftlich", "Abbau, Transport, Aufbau aus einer Hand", "Etiketten je Raum – jeder Karton landet im richtigen Zimmer"]}, "firma": {"n": "Firmen- & Büroumzug", "b": ["Umzug Freitag ab 16 Uhr bis Sonntag", "IT-Kisten mit Etikett je Arbeitsplatz", "Aktenvernichtung nach DIN 66399 auf Wunsch"]}, "pack": {"n": "Packservice & Material", "b": ["Kartons, Packpapier, Kleiderboxen, Polsterdecken", "Geschirr stehend, in Papier – bruchsicher", "Auspacken am neuen Ort ebenfalls möglich"]}, "montage": {"n": "Möbel- & Küchenmontage", "b": ["Schränke, Betten, Regale ab- und aufbauen", "Küche anpassen, Arbeitsplatte zuschneiden", "Lampen und Geräte anschließen (Fachbetrieb)"]}, "lift": {"n": "Möbellift", "b": ["Bis ca. 30 m Höhe, je nach Stellplatz", "Schont Treppenhaus und Rücken", "Schneller ab 3. Etage ohne Aufzug"]}, "hvz": {"n": "Halteverbotszone", "b": ["Antrag bei der Stadt übernehmen wir", "Schilder stehen mindestens 3 volle Tage vorher", "Aufstellprotokoll mit Fotos"]}, "lager": {"n": "Einlagerung", "b": ["Lagerung in verplombten Holzcontainern", "Für Zwischenzeit, Renovierung, Auslandsjahr", "Teilentnahme nach Absprache"]}, "schwer": {"n": "Klavier & Schwerlast", "b": ["Klaviergurte, Treppenraupe, Rollbretter", "Tresore bis 1 t mit Spezialgerät", "Fester Ansprechpartner vor Ort"]}, "senior": {"n": "Seniorenumzug", "b": ["Vorher-Besuch, Möbel-Auswahl für die neue Wohnung", "Bilder hängen, Bett bezogen am ersten Abend", "Abstimmung mit Angehörigen und Heim"]}, "entr": {"n": "Entrümpelung & Entsorgung", "b": ["Sperrmüll, Elektroschrott, Altholz getrennt", "Gut Erhaltenes geht an Sozialkaufhäuser", "Besenrein übergeben"]}, "reinigung": {"n": "Endreinigung & Übergabe", "b": ["Endreinigung nach Übergabe-Standard", "Bohrlöcher schließen, kleine Reparaturen", "Übergabe-Termin mit dem Vermieter begleiten"]}, "fern": {"n": "Fern- & Auslandsumzug", "b": ["Fester Liefertermin auch über 500 km", "Beiladung spart bis zu 40 % (Teilladung)", "Zoll- und Meldepapiere für Nicht-EU-Länder"]}}</script>
+  </div>
+</section>
+
+<section class="vers" id="versichert">
+  <div class="wrap vers-grid">
+    <div>
+      <p class="kicker">Versichert</p>
+      <h2>Schwarz auf weiß<br>abgesichert.</h2>
+      <p class="lead">Jeder Umzug mit uns ist nach Handelsgesetzbuch versichert: 620 € je Kubikmeter Laderaum. Für Ihren Hausrat aus dem Rechner heißt das:</p>
+      <ul class="facts">
+        <li><b>Schaden sichtbar?</b> Spätestens am Tag nach der Lieferung melden. <b>Verdeckt?</b> Innerhalb von 14 Tagen. <small>§ 451f HGB</small></li>
+        <li><b>Treppenhaus, Böden, Aufzug:</b> Kratzer am Gebäude deckt unsere Betriebshaftpflicht.</li>
+        <li><b>Steuer:</b> 20 % der Arbeitskosten sind absetzbar, bis 4.000 € im Jahr. <small>§ 35a EStG</small></li>
+      </ul>
+    </div>
+    <div class="vers-card">
+      <div class="vrow"><span>Ihr Umzugsgut</span><b><span id="vM3">36,2</span> m³</b></div>
+      <div class="vrow big"><span>Gesetzliche Haftung inklusive</span><b><span id="vHaft">22.444</span> €</b></div>
+      <label class="vslide" for="vWert">Wert Ihres Hausrats (Neuwert): <b><span id="vWertT">40.000</span> €</b><input type="range" id="vWert" min="5000" max="150000" step="5000" value="40000"></label>
+      <svg class="vbars" viewBox="0 0 400 120" role="img" aria-labelledby="vbT"><title id="vbT">Vergleich gesetzliche Haftung und Hausratwert</title>
+        <text x="0" y="14" class="vl">Gesetzliche Haftung (620 €/m³)</text><rect x="0" y="22" width="400" height="26" rx="6" class="vtrack"/><rect x="0" y="22" width="0" height="26" rx="6" class="vhaft" id="vbH"/>
+        <text x="0" y="78" class="vl">Neuwert Ihres Hausrats</text><rect x="0" y="86" width="400" height="26" rx="6" class="vtrack"/><rect x="0" y="86" width="0" height="26" rx="6" class="vwert" id="vbW"/>
+        <rect x="0" y="86" width="0" height="26" class="vgap" id="vbG"/>
+      </svg>
+      <p class="vnote" id="vNote"></p>
+      <small class="note">Beispielrechnung. Transportversicherung zum Neuwert auf Wunsch, die Prämie steht im Festpreis-Angebot.</small>
     </div>
   </div>
 </section>

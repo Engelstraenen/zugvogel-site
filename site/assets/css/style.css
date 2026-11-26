@@ -383,3 +383,74 @@ p{margin:0}
   .scrollhint{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Laderaum-Anzeige + wachsender LKW (26.11.) */
+.load{margin:2px 0 10px;display:grid;gap:6px}
+.load span{font:600 13px/1.2 var(--f);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
+.load i{display:block;height:8px;border-radius:99px;background:rgb(var(--ink-rgb) / .1);overflow:hidden}
+.load b{display:block;height:100%;width:0;border-radius:inherit;background:var(--or);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.load p{margin:0;font-size:15px;line-height:1.4;color:var(--ink2);min-height:2.8em}
+.load p.warn{color:var(--or2)}
+.truck.grow .t-glass{stroke-width:3}
+/* Halteverbot: echter LKW in Seitenansicht (26.11.) */
+.minitruck{transform:translate(var(--tx,-320px),610px)}
+.mt-in{transform:translateY(var(--bob,0px))}
+.mt-body{transform-box:fill-box;transform-origin:100% 100%;transform:rotate(var(--pitch,0deg))}
+.mt-shadow{fill:rgb(0 0 0 / .35)}
+.mt-chassis{fill:#14191b}
+.mt-box{fill:#eef1ef;stroke:rgb(0 0 0 / .25);stroke-width:1.5}
+.mt-rib{stroke:rgb(0 0 0 / .1);stroke-width:2;fill:none}
+.mt-stripe{fill:var(--or)}
+.mt-logo{fill:var(--bg)}
+.mt-name{font:700 22px/1 var(--g);letter-spacing:.04em;fill:var(--bg)}
+.mt-tail{fill:#c4302b}
+.mt-blink{fill:#f3a33a;opacity:.25}
+.parked .mt-blink{animation:mtBlink .9s steps(2,jump-none) infinite}
+@keyframes mtBlink{0%{opacity:.25}50%{opacity:1;filter:drop-shadow(0 0 8px #f3a33a)}}
+.mt-cab{fill:#f7f8f6;stroke:rgb(0 0 0 / .25);stroke-width:1.5}
+.mt-win{fill:#1a2b30}
+.mt-handle{stroke:#6b7377;stroke-width:3;stroke-linecap:round}
+.mt-lamp{fill:#fff4d0}
+.mt-bumper{fill:#1d2326}
+.mt-mirror{stroke:#1d2326;stroke-width:4;fill:none}
+.mt-beam path{fill:rgb(255 244 208 / .22);opacity:var(--beam,0);transition:opacity .4s}
+.mt-ramp rect{fill:#9aa3a6;stroke:#5c6568;stroke-width:1.5}
+.mt-ramp{transform-box:fill-box;transform-origin:50% 100%;transform:translateY(var(--rl,0px)) rotate(var(--ra,0deg))}
+.hw-tyre{fill:#111516}.hw-rim{fill:#b9c0c2}.hw-hub{fill:#3a4245}
+.hw-sp{transform:rotate(var(--wr,0deg))}.hw-sp path{stroke:#5f686b;stroke-width:3;fill:none}
+.mt-smoke circle{fill:rgb(200 205 205 / .35);opacity:var(--smoke,0)}
+.zone{transition:fill .4s}.parked .zone{fill:rgb(var(--or-rgb) / .32)}
+/* Leistungen + Versicherung (26.11.) */
+.leist{padding:clamp(90px,12vw,150px) 0 clamp(40px,6vw,70px);background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.sv-grid{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.sv{width:100%;height:100%;min-height:150px;text-align:left;display:grid;align-content:start;gap:8px;padding:20px;border:0;border-radius:18px;background:rgb(var(--bg3-rgb) / .55);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;transition:background .25s,box-shadow .25s,transform .25s}
+.sv svg{width:40px;height:40px}
+.sv svg path{fill:none;stroke:var(--or);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:240;stroke-dashoffset:240;transition:stroke-dashoffset 1.2s cubic-bezier(.3,.7,.2,1)}
+.leist.in .sv svg path{stroke-dashoffset:0}
+.sv b{font:700 19px/1.15 var(--g)}
+.sv small{color:var(--muted);font-size:15px;line-height:1.35}
+.sv:hover{background:var(--hov);transform:translateY(-3px)}
+.sv[aria-expanded=true]{background:var(--mid);box-shadow:inset 0 0 0 2px var(--or)}
+.sv:focus-visible{outline:2px solid var(--or);outline-offset:3px}
+.sv-detail{margin-top:18px;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:24px 28px;border-radius:20px;background:linear-gradient(120deg,rgb(var(--or-rgb) / .16),rgb(var(--or-rgb) / .04));box-shadow:inset 0 0 0 1px rgb(var(--or-rgb) / .4);animation:svIn .4s cubic-bezier(.2,.8,.2,1)}
+.sv-detail h3{font-size:clamp(22px,2.4vw,30px);margin-bottom:10px}
+.sv-detail ul{margin:0;padding-left:20px;color:var(--ink2);display:grid;gap:4px}
+@keyframes svIn{from{opacity:0;transform:translateY(10px)}}
+.vers{padding:clamp(60px,8vw,110px) 0 clamp(90px,12vw,150px);background:var(--bg2)}
+.vers-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,70px);align-items:center}
+.facts{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.facts li{padding:14px 0 0;border-top:1px solid var(--line);color:var(--ink2);line-height:1.5}
+.facts b{color:var(--ink)}.facts small{display:inline-block;margin-left:6px;color:var(--or);font-size:13px;letter-spacing:.04em}
+.vers-card{padding:clamp(20px,3vw,34px);border-radius:24px;background:rgb(var(--bg-rgb) / .7);box-shadow:inset 0 0 0 1px var(--line);display:grid;gap:14px}
+.vrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;color:var(--muted)}
+.vrow b{font:700 22px/1 var(--g);color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.vrow.big b{font-size:clamp(30px,3.6vw,44px);color:var(--or)}
+.vslide{display:grid;gap:8px;color:var(--ink2);font-size:15px}
+.vslide input{width:100%;accent-color:var(--or);min-height:44px}
+.vbars{width:100%;height:auto;overflow:visible}
+.vl{fill:var(--muted);font:500 13px var(--f)}
+.vtrack{fill:rgb(var(--ink-rgb) / .08)}.vhaft{fill:var(--or);transition:width .6s cubic-bezier(.2,.8,.2,1)}.vwert{fill:var(--ink2);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.vgap{fill:rgb(255 90 70 / .55);transition:x .6s,width .6s}
+.vnote{margin:0;color:var(--ink2);min-height:3em}
+@media (max-width:1100px){.sv-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){.sv-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vers-grid{grid-template-columns:minmax(0,1fr)}.sv{min-height:0;padding:16px}.sv b{font-size:17px}.sv small{font-size:14px}}
+@media (max-width:420px){.sv-grid{gap:10px}.sv{padding:14px}}
