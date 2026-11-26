@@ -2,7 +2,7 @@
 """Scroll-Videos für ein Filmkapitel bauen, OHNE Verkleinern.
 
 Start: python3 tools/video.py <roh.mp4> <kapitel> [--t <sekunden>]   (kapitel = lift | sofa | crew)
-Ziel:  site/assets/vid/<kapitel>.mp4    Desktop: volle Quellauflösung, All-Intra (jedes Bild Keyframe -> ruckelfreies Spulen), nachgeschärft (unsharp 0.7)
+Ziel:  site/assets/vid/<kapitel>.mp4    Desktop: volle Quellauflösung, Keyframe alle 6 Bilder ohne B-Frames (Spulen glatt, 1/3 der Dateigröße), nachgeschärft (unsharp 0.7)
        site/assets/vid/<kapitel>-p.mp4  Handy hochkant: Ausschnitt 3:4 in voller Quellhöhe, Lage wie object-position
        site/assets/vid/<kapitel>-m.mp4  Handy quer: ganzes Bild, höchstens 1280 breit
 Trägt das Kapitel in site/assets/js/vid.js ein (Versionsstempel). Nie hochskalieren.
@@ -33,8 +33,8 @@ def enc(src, dst, vf, crf, t=None):
     cmd = ["ffmpeg", "-y", "-v", "error", "-i", src]
     if t:
         cmd += ["-t", str(t)]
-    cmd += ["-an", "-vf", vf + ",unsharp=5:5:0.7,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
-            "-tune", "film", "-g", "1", "-keyint_min", "1", "-sc_threshold", "0", "-movflags", "+faststart", dst]
+    cmd += ["-an", "-vf", vf + ",fps=30,unsharp=5:5:0.7,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", str(crf),
+            "-tune", "film", "-g", "6", "-keyint_min", "6", "-bf", "0", "-sc_threshold", "0", "-movflags", "+faststart", dst]
     subprocess.check_call(cmd)
     return os.path.getsize(dst) // 1024
 
@@ -53,7 +53,7 @@ def main():
     if os.path.abspath(src) != os.path.abspath(keep):
         shutil.copy2(src, keep)
     w, h = size(src)
-    k1 = enc(src, os.path.join(OUT, ch + ".mp4"), "null", 20, t)
+    k1 = enc(src, os.path.join(OUT, ch + ".mp4"), "null", 21, t)
     pw = (h * 3 // 4) // 2 * 2
     x = int(max(0, min(w - pw, POS.get(ch, .5) * w - pw / 2)))
     k2 = enc(src, os.path.join(OUT, ch + "-p.mp4"), "crop=%d:%d:%d:0" % (pw, h, x), 21, t)
